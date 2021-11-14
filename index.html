@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant&display=swap" rel="stylesheet"> 
+    <title>Idées musicales</title>
+</head>
+<body>
+    <section id="choix">
+        
+            <div class="btn" data-choix="morceau" id="btn-morceau">
+                <span>Morceau</span>
+            </div>
+            <div class="btn" data-choix="design" id="btn-design">
+                <span>Sound Design</span>
+            </div>
+        
+    </section>
+    <section class="page" id="morceau">
+        <div>
+            <h1>Genre</h1><br>
+            <ul>
+                <li id="morceau-genre"></li>
+            </ul>
+        </div>
+        <div>
+            <h1>Caractère</h1><br>
+            <ul>
+                <li id="morceau-caractere"></li>
+            </ul>
+        </div>
+        <div>
+            <h1>Tonalité</h1><br>
+            <div><p id="morceau-ton"></p></div>
+        </div>
+        <div>
+            <h1>Tempo</h1><br>
+            <div><p id="morceau-tempo"></p></div>
+        </div>
+    </section>
+    <section class="page" id="design">
+        <div>
+            <h1>Type</h1><br>
+            <ul>
+                <li id="design-type"></li>
+            </ul>
+        </div>
+        <div>
+            <h1>Caractère</h1><br>
+            <ul>
+                <li id="design-caractere"></li>
+            </ul>
+        </div>
+        <!-- <div>
+            <h1>Oscillateur</h1><br>
+            <ul>
+                <li>Sine</li>
+                <li>Triangle</li>
+                <li>Sawtooth</li>
+                <li>Square</li>
+                <li>White Noise</li>
+            </ul>
+        </div> -->
+        <div>
+            <h1>Synthétiseur</h1><br>
+            <ul>
+                <li id="design-synth"></li>
+            </ul>
+        </div>
+    </section>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* 148638 */
+        }
+        body {
+            background: #1BB34B;
+            /* position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1; */
+        }
+        #choix {
+            background: #1BB34B;
+
+            width: 100vw;
+            height: 100vh;
+
+            display: grid;
+            place-items: center;
+            /* grid-template-columns: repeat(auto-fit, minmax(35vw, 1fr)); */
+            grid-auto-flow: column;
+
+            transition: all .5s ease;
+            z-index: 1;
+        }
+        #choix.cache {
+            transform: translateY(-150vh);
+        }
+        .btn {
+            font-family: monospace;
+            font-size: 4em;
+
+            background: #1a8a3d;
+            border: 0 solid black;
+
+            padding: 10%;
+            width: clamp(35vw, 35vw, 10vw);
+            height: 20vh;
+            
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+            user-select: none;
+
+            transition: all .2s ease;
+        }
+
+        .btn:hover {
+            background: #229947;
+            box-shadow: 0 0 0 10000px #00000040;
+
+            border: 3px solid black;
+            outline: 1px solid black;
+            outline-offset: -10px;
+
+            transform: scale(1.07);
+        }
+
+        .btn:active {
+            box-shadow: 0 0 0 0 #00000040;
+        }
+
+        .page {
+            box-sizing: content-box;
+
+            position: absolute;
+            top: 0;
+            z-index: 0;
+
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 20pt;
+
+            width: 100vw;
+            height: 100vh;
+
+            display: grid;
+            grid-auto-flow: column;
+            place-items: center;
+
+            user-select: none;
+        }
+        .page li {
+            list-style-type: none;
+            line-height: 35px;
+            text-indent: 15px;
+        }
+
+        .page div {
+            cursor: pointer;
+            transition: all .2s ease;
+        }
+        .page ul {
+            transition: all .2s ease;
+        }
+
+        .page>div:hover {
+            box-shadow: 0 0 0 50px #1a8a3d6b,
+                        inset 0 0 0 100px #1a8a3d6b;
+        }
+        .page > div:hover ul, .page > div:hover div {
+            box-shadow: 0 0 0 20px #1a8a3d6b,
+                        inset 0 0 0 100px #1a8a3d6b;
+        }
+
+        .page p {
+            text-indent: 15px;
+        }
+
+        #morceau, #design {
+            display: none;
+        }
+
+        #citation {
+            display: none;
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            /* display: flex; */
+            justify-content: center;
+            width: 100vw;
+            margin-bottom: 10vh;
+            z-index: 0;
+        }
+        #citation h1 {
+            text-align: center;
+            font-family: 'Cormorant';
+            font-size: 30pt;
+            box-shadow: 0 0 0 50px #1a8a3d6b,
+                        inset 0 0 0 100px #1a8a3d6b;
+            font-style: italic;
+            font-weight: bolder;
+            user-select: none;
+            cursor: pointer;
+            transition: all .4s ease;
+        }
+        #citation h1::before, #citation h1::after {
+            content: '«';
+            font-size: 40pt;
+            opacity: 0.3;
+            margin: 7px;
+            transition: all .9s ease;
+        }
+
+        #citation h1::after {
+            content: '»';
+        }
+
+        #citation h1:hover {
+            box-shadow: 0 0 0 55px #1a8a3d9a,
+                        inset 0 0 0 100px #1a8a3d9a;
+            letter-spacing: 5px;
+        }
+
+        #citation h1:hover::before, #citation h1:hover::after {
+            margin: 15px;
+        } 
+
+        @media (max-width: 800px) {
+            #choix {
+                grid-auto-flow: row;
+            }
+            .btn {
+                width: 80vw;
+                padding: 5%;
+                /* height: 20vh; */
+                font-size: 2.5em;
+            }
+
+            .page {
+                grid-auto-flow: row;
+                gap: 5vh;
+            }
+            .page p, .page li {
+                text-align: center;
+                text-indent: 0;
+            }
+
+            /* .page > div {
+                border-bottom: 1px solid black;
+            } */
+
+            #citation {
+                margin-top: 10vh;
+                margin-bottom: -20vh;
+            }
+
+            #citation h1 {
+                box-shadow: 0 0 0 25px #1a8a3d6b,
+                            inset 0 0 0 100px #1a8a3d6b;
+                font-size: 17pt;
+            }
+
+            #citation h1::before, #citation h1::after {
+                font-size: 20pt;
+            }
+
+            #citation h1:hover {
+                box-shadow: 0 0 0 25px #1a8a3d9a,
+                            inset 0 0 0 100px #1a8a3d9a;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+    <script>
+        let strategieOblique = "À quoi penses-tu vraiment en ce moment ?\nA-t-on besoin de trous ?\nAbandonne les instruments normaux\nAbats ton jeu\nAccentue les défauts\nAccentue les différences\nAccentue les répétitions\nAccepte les conseils\nAnalyse des amas\nArrête-toi un moment\nAssembles certains éléments en un groupe et traite le groupe\nAuto-indulgence disciplinée\nC’est tout à fait possible (après tout)\nCascades\nCe n’est qu’une question de travail\nChange le rôle des instruments\nComment l’aurais-tu fait ?\nConsidère des transitions\nConsidère plusieurs façons d’enchaîner\nConsulte d’autres sources - prometteuses - non-prometteuses\nContinue\nCoupe une connexion vitale\nCourage !\nCourt-circuit (prends le chemin le plus court)\nDans l’obscurité totale, ou dans une très grande chambre très doucement\nDe quoi les sections sont-elles des sections ?\nDécore, décore\nDécouvre les recettes dont tu te sers et abandonne-les\nDéfinis un territoire comme « sûr » et sers-t’en comme d’une ancre\nDemande aux gens de travailler à l’encontre de leur meilleur jugement\nDès que la recherche progressera, quelque chose sera trouvé\nDétruis - rien- la chose la plus importante\nDiminue, continue\nDistorsion temporelle\nDonne de la valeur à un espace vierge en le plaçant dans un cadre exquis\nDonne libre cours à ton impulsion la plus mauvaise\nÉcarte un axiome\nÉchos fantomatiques - fantômes « échotiques »\nÉcoute la douce voix\nÉloigne-toi du désir\nEmploie une couleur inacceptable\nEn arrière\nEnfants - qui parlent - qui chantent\nEnlève les éléments par ordre d’inimportance apparente\nEntre dans le domaine de l’impossible\nEntre rien et un tout petit peu plus\nÉquilibre les principes de consistance et d’inconsistance\nEssaie d’énoncer le problème aussi clairement que possible\nEst-ce fini ?\nExamine avec attention les détails les plus embarrassants et amplifie-les\nExiste-t-il des sections ?\nFais confiance à ton moi présent\nFais quelque chose d’ennuyeux\nFais un acte soudain, destructif et imprévisible, incorpore\nFais une liste exhaustive de tout ce que tu pourrais faire et fais la dernière chose qui\ns’y trouve\nFaut-il changer les mots ?\nGradations infinitésimales\nHonore ton erreur comme une intention cachée\nHumanise quelque chose dénué d’erreur\nIl ne s’agit pas de construire un mur, mais de faire une brique\nImagine ce que tu fais comme une série d’événements sans rapport les uns avec les\nautres\nImagine une chenille en mouvement\nIntentions - noblesse ? - humilité ? - crédibilité ?\nJouissance idiote\nL’eau\nL’intonation est-elle correcte ?\nLa bande est la musique\nLa chose la plus importante est la chose la plus aisément oubliée\nLa répétition est une forme de changement\nLe principe d’inconsistance\nLes bords - fais-en lentement le tour\nMachinerie (organique)\nManque-t-il quelque chose ?\n« Mécanicalise » quelque chose d’idiosyncratique\nMets de l’ordre\nMets-le la tête en bas\nN’accentue pas une chose plus qu’une autre\nN’aie pas peur d’afficher tes talents\nNe brise pas le silence\nNe change rien et continue avec une consistance immaculée\nNe fais rien le plus longtemps possible\nNe sois pas effrayé par les choses parce qu’elles sont faciles à faire\nNe sois pas effrayé par les clichés\nPense à la radio\nPerdu en territoire inutile\nPermets-toi un seul soulagement\nPlus petit dénominateur commun\nPonts - à construire - à couper\nQue ferait ton meilleur ami ?\nQue ne ferais-tu pas ?\nQuelle est la réalité de la situation\nQuelles erreurs as-tu commises la dernière fois ?\nQuelqu’un en voudrait-il ?\nQuestionne l’approche héroïque\nQuestionne ton corps\nRegarde l’ordre dans lequel tu fais les choses\nRemplis chaque espace\nRésiste (en apparence) au changement\nRespire plus profondément\nRevalorisation (une sensation agréable)\nReviens sur tes pas\nRien qu’une partie, pas le tout\nSois extravagant(e)\nSois moins critique plus souvent\nSois sale\nSors. Ferme la porte\nSoustraction simple\nSouviens-toi de ces douces soirées\nSupprime les ambiguïtés et remplace-les par des spécificités\nSupprime les spécificités et remplace-les par des ambiguïtés\nToujours des premiers pas\nTravaille à un rythme différent\nTu es un ingénieur\nTu n’as pas à être honteux d’utiliser tes propres idées\nTu ne peux faire qu’un point à la fois\nUn seul élément de chaque espèce\nUne ligne a deux côtés\nUtilise des filtres\nUtilise des gens « non-qualifiés »\nUtilise moins de notes\nUtilise une vielle idée\nVa jusqu’à un extrême, reviens vers plus de confort\nVers l’insignifiant".split("\n");
+
+        let citation = document.getElementById("oblique");
+
+        let btns = document.querySelectorAll('.btn');
+
+        function aleatoire(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function random(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        let Mm = ["M", "m"];
+
+        let morceau = {
+            genre: ['Trap', 'Drill', 'Lo-fi', 'House', 'Dubstep', 'Funk', 'Disco', 'Afro | Zouk'],
+            caractere: ['Lourd', 'Calme', 'Espace', 'Sale', 'Foufou', 'Inquiétant'],
+            tonalité: ['Do', 'Ré', 'Mi', 'Fa', 'Sol', 'La', 'Si']
+        };
+
+        let design = {
+            type: ['Basse', 'Lead', 'Pad', 'Percussion', 'Imitation'],
+            caractere: ['Sombre', 'Acide', 'Ambiant', 'Instable', 'Constant', 'Métallique'],
+            synth: ['Analog', 'Operator', 'Collision', 'Tension', 'Wavetable']
+        };
+
+        let affiche = false;
+
+        function morceauGen() {
+            document.getElementById('morceau').style.display = "grid";
+            document.getElementById('morceau-genre').innerHTML = aleatoire(morceau.genre);
+            document.getElementById('morceau-caractere').innerHTML = aleatoire(morceau.caractere);
+            document.getElementById('morceau-ton').innerHTML = aleatoire(morceau.tonalité) + " " + aleatoire(Mm);
+            document.getElementById('morceau-tempo').innerHTML = random(70, 160) + " BPM";
+            document.getElementById("choix").classList.add('cache');
+            btnMorceau.style.boxShadow = 'none';
+
+            affiche = true;
+        }
+
+        function synthGen() {
+            document.getElementById('design').style.display = "grid";
+            document.getElementById('design-type').innerHTML = aleatoire(design.type);
+            document.getElementById('design-caractere').innerHTML = aleatoire(design.caractere);
+            document.getElementById('design-synth').innerHTML = aleatoire(design.synth);
+            document.getElementById("choix").classList.add('cache');
+            btnDesign.style.boxShadow = 'none';
+            
+            affiche = true;
+        }
+
+        function phraseGen() {
+            oblique.innerHTML = aleatoire(strategieOblique);
+            document.getElementById('citation').style.display = 'flex';
+        }
+
+        let btnMorceau = document.getElementById('btn-morceau');
+        let btnDesign = document.getElementById('btn-design');
+
+        btnMorceau.addEventListener('click', () => {
+            morceauGen();
+        })
+
+        btnDesign.addEventListener('click', () => {
+            synthGen();
+        })
+
+        document.addEventListener("keydown", (e) => {
+            if (e.ctrlKey && e.altKey && e.which == 77) {
+                if (!affiche) {
+                    morceauGen();
+                } else {
+                    return;
+                }
+            }
+            if (e.ctrlKey && e.altKey && e.which == 83) {
+                if (!affiche) {
+                    synthGen();
+                } else {
+                    return;
+                }
+            }
+        })
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // if (e.target.id === "btn-morceau") {
+                //     morceauGen();
+                // }
+                // else {
+                //     synthGen();
+                // }
+                // // console.log(e.target.id);
+                // document.getElementById("choix").classList.add('cache');
+                
+                phraseGen();
+            })
+        })
+
+
+    </script>
+    <div id="citation">
+        <h1 id="oblique"></h1>
+    </div>
+    
+</body>
+</html>
