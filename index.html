@@ -129,13 +129,11 @@
         }
         #btn-polconf {
             font-family: 'Josefin Sans', sans-serif;
-            font-size: 18pt;
-            font-weight: bold;
+            font-size: 15pt;
             text-decoration: underline 1px;
             padding: 2vw;
             text-align: right;
             cursor: pointer;
-            z-index: 3;
         }
  
         #polconf {
@@ -143,7 +141,7 @@
             /*margin: 2vh;*/
             z-index: 3;
             position: absolute;
-            /*top: 0;*/
+            top: 0;
             left: 0;
             background: #1BB34B;
             border: 3vh solid #1BB34B;
@@ -153,12 +151,10 @@
             height: 100vh;
          
             font-family: 'Josefin Sans', sans-serif;
-            font-size: 17pt;
+            font-size: 13pt;
         }
         #choix {
             background: #1BB34B;
-	           position: absolute;
-	           top: 0;
 
             width: 100vw;
             height: 100vh;
@@ -169,7 +165,7 @@
             grid-auto-flow: column;
 
             transition: all .5s ease;
-            z-index: -1;
+            z-index: 1;
         }
         #choix.cache {
             transform: translateY(-150vh);
@@ -216,7 +212,7 @@
 
             position: absolute;
             top: 0;
-            z-index: -1;
+            z-index: 0;
 
             font-family: 'Josefin Sans', sans-serif;
             font-size: 20pt;
@@ -332,11 +328,11 @@
             } */
 
             #citation {
+                position: relative;
                 margin-top: 5vh;
                 margin-bottom: -20vh;
                 padding-bottom: 10vh;
                 padding-top: 10vh;
-                transform: translateY(20vh);
             }
 
             #citation h1 {
@@ -362,7 +358,7 @@
 
         // Ajout de l'événement clic pour basculer l'affichage de la div polconf
         function politconf() {
-            if (polconf.style.display == '' || polconf.style.display == 'none') {
+            if (polconf.style.display == 'none') {
                 polconf.style.display = 'block';
                 btnPolconf.innerHTML = 'Masquer la charte de confidentialité';
             } else if (polconf.style.display == 'block') {
@@ -476,7 +472,6 @@
 
 
     </script>
-    <div id="espace"></div>
     <div id="citation">
         <h1 id="oblique"></h1>
     </div>
