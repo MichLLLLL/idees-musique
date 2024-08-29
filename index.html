@@ -139,6 +139,8 @@
 */
  
         #polconf {
+	    position: absolute;
+	    transform : translateY(-20vh);
             /*display: block;*/
             /*margin: 2vh;*/
             
@@ -150,7 +152,7 @@
             line-height: 1.3;
          padding: 3vh;
 
-            /*width: 100vw;*/
+            width: 80vw;
             /*height: 100vh;*/
          
             font-family: 'Josefin Sans', sans-serif;
@@ -165,7 +167,7 @@
 
             max-width: 85vw;
             height: 37vh;
-         overflow: scroll;
+         overflow-y: scroll;
          
             font-family: monospace;
             font-size: 14pt;
@@ -190,6 +192,7 @@
             transform: translateY(-150vh);
         }
         .btn {
+		transform: translateY(20vh);
             font-family: monospace;
             font-size: 4em;
 
@@ -219,7 +222,7 @@
             outline: 1px solid black;
             outline-offset: -10px;
 
-            transform: scale(1.07);
+            transform: transformY(20vh) scale(1.07);
         }
 
         .btn:active {
@@ -322,6 +325,10 @@
         } 
 
         @media (max-width: 800px) {
+		#polconf {
+			max-width: 85vw;
+			transform: none;
+		}
             #choix {
                 grid-auto-flow: row;
             }
@@ -330,6 +337,7 @@
                 padding: 5%;
                 /* height: 20vh; */
                 font-size: 2.5em;
+		    trasnform: none;
             }
 
             .page {
